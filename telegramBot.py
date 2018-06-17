@@ -3,7 +3,7 @@ import requests
 import json
 from mqtt import *
 import time
-
+from temp import *
 tokken = "586569609:AAGkb_-IPu3qy9kZX9En2hJGHp-TUaCqqsI"
 
 bot = telebot.TeleBot(tokken)
@@ -41,8 +41,8 @@ def read_log_senMessage(message):
     last_line = json.load(open("dump.json"))
     last_line = last_line["StatusSNS"]["Time"]
     print(last_line)
-    bot.send_message(message.chat.id, last_line)
-
+    bot.send_message(message.chat.id, "Сейчас температура: " + last_line + " " + "В Казани сейчас: " + temp())
+    print(temp())
 
 
 

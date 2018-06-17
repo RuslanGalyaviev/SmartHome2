@@ -12,12 +12,9 @@ bot = telebot.TeleBot(tokken)
 
 @bot.message_handler(commands=['/start'])
 def handle_start(messasge):
-    if messasge.chat.id == '54986411':
-        mark_up = telebot.types.ReplyKeyboardMarkup(True)
-        mark_up.row('Вкл','Выкл' ,'Темп')
-        bot.send_message(messasge.from_user.id, "Привет", reply_markup=mark_up)
-    else:
-        send_message(messasge.chat.id, "Ты не босс")
+    mark_up = telebot.types.ReplyKeyboardMarkup(resize_keyboard=True)
+    mark_up.row('Вкл','Выкл' ,'Темп')
+    bot.send_message(messasge.chat.id, "Привет", reply_markup=mark_up)
 
 
 @bot.message_handler(content_types=['text'])
@@ -41,6 +38,7 @@ def read_log_senMessage(message):
     last_line = json.load(open("dump.json"))
     last_line = last_line["StatusSNS"]["Time"]
     print(last_line)
+
     bot.send_message(message.chat.id, "Сейчас температура: " + last_line + " " + "В Казани сейчас: " + temp())
     print(temp())
 

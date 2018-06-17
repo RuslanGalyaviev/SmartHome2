@@ -18,6 +18,3 @@ def temp():
     html = "http://kazan.ru/pogoda"
     result = get_temperature(get_html(html))
     return result
-
-
-

@@ -36,10 +36,8 @@ def read_log_senMessage(message):
     publish_message_status()
     time.sleep(1)
     last_line = json.load(open("dump.json"))
-    last_line = last_line["StatusSNS"]["Time"]
-    print(last_line)
-
-    bot.send_message(message.chat.id, "Сейчас температура: " + last_line + " " + "В Казани сейчас: " + temp())
+    last_line = last_line["StatusSNS"]["DS18B20"]["Temperature"]
+    bot.send_message(message.chat.id, "Сейчас температура в помещение: " + str(last_line) + "°C, " + "В Казани сейчас: " + temp())
     print(temp())
 
 

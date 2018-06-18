@@ -5,7 +5,7 @@ from mqtt import *
 import time
 from temp import *
 
-tokken = "586569609:AAGkb_-IPu3qy9kZX9En2hJGHp-TUaCqqsI"
+tokken = ""
 
 bot = telebot.TeleBot(tokken)
 

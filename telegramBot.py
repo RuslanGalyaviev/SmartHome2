@@ -90,8 +90,6 @@ def read_log_senMessage(message):
 
 
 
-
-
 def get_updates():
     url = 'https://api.telegram.org/bot' + config.tokken + '/GetUpdates'
     r = requests.get(url)

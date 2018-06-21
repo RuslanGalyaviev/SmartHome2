@@ -1,1 +1,0 @@
-tokken = "586569609:AAGkb_-IPu3qy9kZX9En2hJGHp-TUaCqqsI"

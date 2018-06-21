@@ -6,6 +6,7 @@ import json
 conf = configparser.RawConfigParser()
 conf.read("termostat.conf")
 
+
 def termostat():
     publish_message_status()
     time.sleep(1)

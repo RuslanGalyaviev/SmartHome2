@@ -4,10 +4,9 @@ import json
 from mqtt import *
 import time
 from temp import *
+import config
 
-tokken = ""
-
-bot = telebot.TeleBot(tokken)
+bot = telebot.TeleBot(config.tokken)
 
 
 @bot.message_handler(commands=['start'])
@@ -17,6 +16,7 @@ def handle_start(message):
     mark_up.row('Термостат on', 'Термостат off')
     mark_up.row('Настроить термостат')
     bot.send_message(message.chat.id, "Привет", reply_markup=mark_up)
+
 
 
 @bot.message_handler(content_types=['text'])
@@ -55,7 +55,7 @@ def setting_termostat(message):
 
 
 def get_updates():
-    url = 'https://api.telegram.org/bot' + tokken + '/GetUpdates'
+    url = 'https://api.telegram.org/bot' + config.tokken + '/GetUpdates'
     r = requests.get(url)
     write_json(r.json())
     result = r.json()

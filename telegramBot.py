@@ -47,6 +47,8 @@ def send_message(message):
         msg = bot.send_message(message.chat.id, 'Введите температру включения:')
 
         bot.register_next_step_handler(msg, onTemp)
+        conf.set("termostat", "status", "on")
+        conf.write(open("termostat.conf", "w"))
 
 def onTemp(message):
     while True:

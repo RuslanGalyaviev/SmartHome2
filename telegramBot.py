@@ -1,12 +1,17 @@
 import telebot
-import requests
 import json
 from mqtt import *
 import time
 from temp import *
 import config
+import configparser
 
 bot = telebot.TeleBot(config.tokken)
+
+conf = configparser.RawConfigParser()
+conf.read("termostat.conf")
+
+
 
 
 @bot.message_handler(commands=['start'])
@@ -30,11 +35,47 @@ def send_message(message):
     if 'Темп' in message.text:
         read_log_senMessage(message)
     if 'on' in message.text:
-        bot.send_message(message.chat.id, "Термостат включен")
+        conf.set("termostat", "status", "on")
+        conf.write(open("termostat.conf", "w"))
+        bot.send_message(message.chat.id, "Термостат включен: включение при " + conf.get('termostat','on') + "°C выключение при " + conf.get('termostat', 'off') + "°C")
+
     if 'off' in message.text:
         bot.send_message(message.chat.id, "Термостат выключен")
+        conf.set("termostat", "status", "off")
+        conf.write(open("termostat.conf", "w"))
     if 'Настроить' in message.text:
-        setting_termostat(message)
+        msg = bot.send_message(message.chat.id, 'Введите температру включения:')
+        bot.register_next_step_handler(msg, onTemp)
+
+def onTemp(message):
+    while True:
+        if not message.text.isdigit():
+            msg = bot.send_message(message.chat.id, "Введите число")
+            bot.register_next_step_handler(msg, onTemp)
+
+        else:
+            conf.set("termostat", "on", message.text)
+            with open("termostat.conf", "w") as config:
+                conf.write(config)
+            print(message.text)
+            msg = bot.send_message(message.chat.id, "Введите температуру выключения")
+            bot.register_next_step_handler(msg, offTemp)
+        break
+
+def offTemp(message):
+    while True:
+        if not message.text.isdigit():
+            msg = bot.send_message(message.chat.id, "Введите число")
+            bot.register_next_step_handler(msg, offTemp)
+        else:
+            conf.set("termostat", "off", message.text)
+            with open("termostat.conf", "w") as config:
+                conf.write(config)
+            print(message.text)
+            bot.send_message(message.chat.id, "Термостат включен: включение при " + conf.get('termostat',
+                                                                                             'on') + "°C выключение при " + conf.get(
+                'termostat', 'off') + "°C")
+        break
 
 
 def read_log_senMessage(message):
@@ -46,10 +87,6 @@ def read_log_senMessage(message):
                      "Сейчас температура в помещение: " + str(last_line) + "°C, " + "В Казани сейчас: " + temp())
     print(temp())
 
-
-def setting_termostat(message):
-    bot.send_message(message.chat.id, "Введите температуру включения: ")
-    get_updates()
 
 
 

@@ -43,6 +43,7 @@ def send_message(message):
         bot.send_message(message.chat.id, "Термостат выключен")
         conf.set("termostat", "status", "off")
         conf.write(open("termostat.conf", "w"))
+        publish_message_off()
     if 'Настроить' in message.text:
         msg = bot.send_message(message.chat.id, 'Введите температру включения:')
 

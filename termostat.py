@@ -1,4 +1,5 @@
 import configparser
+import config
 from mqtt import *
 import time
 import json
@@ -21,6 +22,7 @@ def termostat():
         if conf.getfloat('termostat', 'tempinroom') >= conf.getfloat('termostat', 'off'):
             publish_message_off()
             print('Выключено')
+
 
 while True:
     termostat()

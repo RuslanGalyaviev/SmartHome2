@@ -26,4 +26,4 @@ def termostat():
 
 while True:
     termostat()
-    time.sleep(60)
+    time.sleep(15)
